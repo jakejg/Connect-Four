@@ -15,17 +15,7 @@ let board = [] // array of rows, each row is array of cells  (board[y][x])
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
-/* not sure why this doesn't work
-function makeBoard() {
-let row = []
-  for (let i = 0; i<WIDTH; i++){
-    row.push(null);
-  }
-  for (let i = 0; i<HEIGHT; i++) {
-    board.push(row);
-  }
-}
-*/
+
 function makeBoard() {
   let row
     for (let i = 0; i<HEIGHT; i++){
@@ -155,19 +145,17 @@ function checkForWin() {
   }
 
 
-/* creates a multi-dimensional array with four values, each value 
-contains coordinates to be used to check the board array in the _win function. It always starts
-from position [0,0].
+/* creates 4 multi-dimensional arrays with 4 values, each value 
+contains coordinates to be used to check the board array in the _win function.
+Each array checks values in a different direction starting with position 
+board[0][0] on the first iteration of the loop.
 */
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      // creates an array to check for horizontal matches
+      
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      //creates an array to check for vertical matches
       let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      //creates an array to check for diagonal matches to the right
       let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-      // creates an array to check for diagonal matches to the left
       let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
       
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
