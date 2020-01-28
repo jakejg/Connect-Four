@@ -116,8 +116,10 @@ function handleClick(evt) {
     endGame("Game is a Tie");
   }
 
-  // switch players
+  // switch players 
+  if(!checkForWin()){
   currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
+  }
 }
 
 function checkIfBoardIsFull(){
