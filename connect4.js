@@ -16,12 +16,12 @@ let board = [] // array of rows, each row is array of cells  (board[y][x])
  */
 
 
-function makeBoard() {
+function makeBoard(height, width) {
   let row
-    for (let i = 0; i<HEIGHT; i++){
+    for (let i = 0; i<height; i++){
       row =[];
       board.push(row);
-      for (let j = 0; j<WIDTH; j++) {
+      for (let j = 0; j<width; j++) {
           row.push(null);
       }
     }
@@ -29,22 +29,9 @@ function makeBoard() {
 
 
 
-
 function makeHtmlBoard() {
   const htmlBoard = document.querySelector('#board')
-
-  // create top row for clicking
-  let top = document.createElement("tr");
-      top.setAttribute("id", "column-top");
-      top.addEventListener("click", handleClick);
-  // add cells
-  for (let x = 0; x < WIDTH; x++) {
-    let headCell = document.createElement("td");
-    headCell.setAttribute("id", x);
-    top.append(headCell);
-  }
-  htmlBoard.append(top);
-
+    createTopRow(htmlBoard);
   // create rows for the board
   for (let y = 0; y < HEIGHT; y++) {
     const row = document.createElement("tr");
@@ -57,6 +44,19 @@ function makeHtmlBoard() {
     htmlBoard.append(row);
   }
 }
+
+function createTopRow(htmlBoard){
+  let top = document.createElement("tr");
+  top.setAttribute("id", "column-top");
+  top.addEventListener("click", handleClick);
+  // add cells
+  for (let x = 0; x < WIDTH; x++) {
+  let headCell = document.createElement("td");
+  headCell.setAttribute("id", x);
+  top.append(headCell);
+  }
+  htmlBoard.append(top);
+  }
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
@@ -86,9 +86,9 @@ function placeInTable(y, x) {
 
 /** endGame: announce game end */
 
-function endGame() {
+function endGame(msg) {
 
-  alert(`Player ${currPlayer} won!`);
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -107,8 +107,9 @@ function handleClick(evt) {
   placeInTable(y, x);
 
   // check for win
-   if (checkForWin()) {
-    setTimeout(endGame, 1200) ;
+  let win = checkForWin();
+   if (win) {
+    setTimeout(endGame, 1200, `Player ${currPlayer} won!`) ;
   }
 
   // check for tie
@@ -117,7 +118,7 @@ function handleClick(evt) {
   }
 
   // switch players 
-  if(!checkForWin()){
+  if(!win){
   currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
   }
 }
@@ -131,6 +132,7 @@ return board[0].every( val => val !== null)
 
 function checkForWin() {
   function _win(cells) {
+  
     // Check four cells to see if they're all color of current player
     //  - cells: list of four (y, x) cells
     //  - returns true if all are legal coordinates & all match currPlayer
@@ -167,5 +169,5 @@ board[0][0] on the first iteration of the loop.
   }
 }
 
-makeBoard();
+makeBoard(HEIGHT, WIDTH);
 makeHtmlBoard();
